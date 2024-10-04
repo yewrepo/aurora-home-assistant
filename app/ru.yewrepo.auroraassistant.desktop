@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=ru.yewrepo.auroraassistant
+Exec=/usr/bin/ru.yewrepo.auroraassistant
+Name=Home Assistant
+Name[ru]=Home Assistant
+
+[X-Application]
+Permissions=DeviceInfo;Bluetooth;Internet;Location;WebView
+OrganizationName=ru.yewrepo
+ApplicationName=auroraassistant
+ExecDBus=/usr/bin/ru.yewrepo.auroraassistant
+
+#[X-Task ru.yewrepo.auroraassistant.runner]
+#Type=periodic
+#Exec=/usr/bin/ru.yewrepo.auroraassistant/runner
+#Conditions=Wi-Fi
