@@ -1,6 +1,8 @@
 ![github_HA_AURORA_LOGO](https://github.com/user-attachments/assets/4cdd1020-ef3d-4358-94a7-1b34be28884a)
 # Home Assistant for Aurora OS
 Клиент предоставляет возможность управлять умным домом через веб-интерфейс.
+
+В приложении используется подход с DI, предложенный [den3000](https://github.com/den3000/BasicApp-Aurora)
 #### Реализовано:
 ✅ Сохранение настроек сервера HA\
 ✅ Авторизация на сервере\
