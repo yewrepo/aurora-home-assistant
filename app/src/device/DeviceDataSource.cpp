@@ -15,7 +15,7 @@ DeviceDataSource::DeviceDataSource(QObject *parent) : QObject(parent)
 
     _data->setAppId(QString("%1.%2").arg(Aurora::Application::organizationName(), Aurora::Application::applicationName()) );
     _data->setAppName(Aurora::Application::applicationName());
-    _data->setAppVerison(QString::number(APP_VERSION));
+    _data->setAppVerison(APP_VERSION);
     _data->setDeviceName("");
     _data->setModel(_info->model());
     _data->setOsName(QSysInfo::prettyProductName());
