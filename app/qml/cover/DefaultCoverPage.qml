@@ -4,9 +4,11 @@ import Sailfish.Silica 1.0
 CoverBackground {
     objectName: "defaultCover"
 
+    property var serverAddress
+
     CoverTemplate {
         objectName: "applicationCover"
-        primaryText: "primaryText"
-        secondaryText: qsTr("secondaryText")
+        secondaryText: "Сервер"
+        description: serverAddress
     }
 }

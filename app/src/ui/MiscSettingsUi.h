@@ -7,7 +7,7 @@
 class MiscSettingsUi : public QObject
 {
     Q_OBJECT
-     Q_PROPERTY(QString serverAddress READ getServerAddress CONSTANT)
+    Q_PROPERTY(QString serverAddress READ getServerAddress CONSTANT)
     Q_PROPERTY(QString accessToken READ getAccessToken CONSTANT)
     Q_PROPERTY(QString tokenExpireTime READ getTokenExpireTime CONSTANT)
     Q_PROPERTY(bool hasToken READ hasToken CONSTANT)

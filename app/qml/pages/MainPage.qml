@@ -19,7 +19,7 @@ Page {
 
         PageHeader {
             id: header
-            title: qsTr("Авторизация")
+            title: qsTr("Поиск сервера")
         }
 
         Column {

@@ -2,10 +2,20 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>DefaultCoverPage</name>
+    <name>AboutPage</name>
     <message>
-        <location filename="../qml/cover/DefaultCoverPage.qml" line="10"/>
-        <source>secondaryText</source>
+        <location filename="../qml/pages/AboutPage.qml" line="21"/>
+        <source>О приложении</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="32"/>
+        <source>Home Assistant для ОС Аврора</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="42"/>
+        <source>Исходный код приложения: https://github.com/yewrepo/my_parcels</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13,7 +23,7 @@
     <name>MainPage</name>
     <message>
         <location filename="../qml/pages/MainPage.qml" line="22"/>
-        <source>Авторизация</source>
+        <source>Поиск сервера</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

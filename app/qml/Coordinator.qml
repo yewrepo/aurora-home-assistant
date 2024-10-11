@@ -7,6 +7,7 @@ Item {
     property LauncherViewModel mainVm
     property SensorSettingsViewModel settingsVm
 
+    property string aboutPage: "pages/AboutPage.qml"
     property string mainPage: "pages/MainPage.qml"
     property string authPage: "pages/AuthPage.qml"
     property string webAppPage: "pages/WebAppPage.qml"
@@ -39,6 +40,10 @@ Item {
         page.onWebAppShow.connect(showWebAppPage)
     }
 
+    function showAboutPage() {
+        return pageStack.push(Qt.createComponent(Qt.resolvedUrl(aboutPage)))
+    }
+
     function showAuthPage() {
         var vm = getMainVmLazy()
         var page = pushPageWithVm(authPage, vm)
@@ -49,6 +54,7 @@ Item {
         var vm = diProvider.webAppVmInstance()
         var page = pushPageWithVm(webAppPage, vm)
         page.checkHint()
+        page.onAboutShow.connect(showAboutPage)
         page.onSensSettingsShow.connect(showSensSettings)
         page.onMobSettingsShow.connect(showMobSettings)
         page.onQuitWebApp.connect(function() {

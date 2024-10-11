@@ -11,6 +11,7 @@ Page {
     signal onQuitWebApp
     signal onSensSettingsShow
     signal onMobSettingsShow
+    signal onAboutShow
 
     id: page
     objectName: "webAppPage"
@@ -68,6 +69,14 @@ Page {
         PopupMenuDividerItem {}
 
         PopupMenuItem {
+            text: "О приложении"
+            icon.source: "image://theme/icon-m-about"
+            onClicked: {
+                onAboutShow()
+            }
+        }
+
+        PopupMenuItem {
             text: "Выход"
             icon.source: "image://theme/icon-m-close"
             onClicked: {
@@ -90,7 +99,7 @@ Page {
 
     Timer {
         id: hintTimer
-        interval: 5000
+        interval: 10000
         running: false
         repeat: false
         onTriggered: {

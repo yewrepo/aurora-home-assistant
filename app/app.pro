@@ -80,6 +80,7 @@ HEADERS += \
 
 DISTFILES += \
     qml/Coordinator.qml \
+    qml/pages/AboutPage.qml \
     qml/pages/SensorInfoPage.qml \
     qml/pages/SensorSettingsPage.qml \
     qml/pages/MobileSettingsPage.qml \
