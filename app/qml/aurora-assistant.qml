@@ -23,7 +23,6 @@ ApplicationWindow {
             serverAddress: "Нет адреса"
 
             Component.onCompleted: {
-                coordinator.start()
                 var address = coordinator.getSettingsVmLazy().selectedUiItem().serverAddress
                 if (address !== "" && address !== undefined) {
                     page.serverAddress = address.substring(address.lastIndexOf("/") + 1, address.length)
