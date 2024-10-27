@@ -12,7 +12,7 @@ Page {
 
     AppBar {
         id: appBar
-        headerText: qsTr("Настройки приложения")
+        headerText: qsTr("Settings")
         subHeaderText: qsTr("v."+APP_VERSION)
     }
 
@@ -30,11 +30,11 @@ Page {
             width: parent.width
 
             SectionHeader {
-                text: qsTr("Датчики")
+                text: qsTr("Sensors")
             }
 
             ComboBox {
-                label: qsTr("Интервал обновления датчиков")
+                label: qsTr("Sensors update interval")
                 currentIndex: viewModel.currentInterval
                 enabled: false
                 menu: ContextMenu {
@@ -51,7 +51,7 @@ Page {
             }
 
             SectionHeader {
-                text: qsTr("Сервер")
+                text: qsTr("Server")
             }
 
             Item {
@@ -63,7 +63,7 @@ Page {
 
                 Label {
                     id: serverTitle
-                    text: qsTr("Адрес")
+                    text: qsTr("Address")
                     font.pixelSize: Theme.fontSizeMedium
                     truncationMode: TruncationMode.Fade
                     anchors {
@@ -97,7 +97,7 @@ Page {
 
                 Label {
                     id: accessTokenTitle
-                    text: qsTr("Токен доступа")
+                    text: qsTr("Access token")
                     font.pixelSize: Theme.fontSizeMedium
                     truncationMode: TruncationMode.Fade
                     anchors {
@@ -133,9 +133,9 @@ Page {
 
     function getTokenValue(){
         if (viewModel.selectedUiItem().hasToken) {
-            return "Действителен до: " + viewModel.selectedUiItem().tokenExpireTime
+            return "Expires on: " + viewModel.selectedUiItem().tokenExpireTime
         }else {
-            return "Нет токена"
+            return "No token"
         }
     }
 
@@ -143,7 +143,7 @@ Page {
         if (viewModel.selectedUiItem().hasToken) {
             return viewModel.selectedUiItem().serverAddress
         }else {
-            return "Нет адреса"
+            return "No address"
         }
     }
 

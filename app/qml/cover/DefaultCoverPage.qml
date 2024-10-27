@@ -8,7 +8,7 @@ CoverBackground {
 
     CoverTemplate {
         objectName: "applicationCover"
-        secondaryText: "Сервер"
+        secondaryText: qsTr("Server")
         description: serverAddress
     }
 }

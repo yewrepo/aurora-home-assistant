@@ -49,17 +49,17 @@ Page {
         id: popup
 
         PopupSubMenuItem {
-            text: "Настройки"
+            text: qsTr("Settings")
             icon.source: "image://theme/icon-m-developer-mode"
 
             PopupMenuItem {
-                text: "Мобильное приложение"
+                text: qsTr("App settings")
                 onClicked: {
                     onMobSettingsShow()
                 }
             }
             PopupMenuItem {
-                text: "Датчики"
+                text: qsTr("Sensors")
                 onClicked: {
                     onSensSettingsShow()
                 }
@@ -69,7 +69,7 @@ Page {
         PopupMenuDividerItem {}
 
         PopupMenuItem {
-            text: "О приложении"
+            text: qsTr("About")
             icon.source: "image://theme/icon-m-about"
             onClicked: {
                 onAboutShow()
@@ -77,7 +77,7 @@ Page {
         }
 
         PopupMenuItem {
-            text: "Выход"
+            text: qsTr("Quit")
             icon.source: "image://theme/icon-m-close"
             onClicked: {
                 viewModel.removeAllConfigs()
@@ -90,7 +90,7 @@ Page {
         id: hint
         anchors.bottom: parent.bottom
         opacity: 0.0
-        text: "Проведите вниз по правому краю для открытия меню"
+        text: qsTr("Swipe down from the right edge to open the menu")
         Behavior on opacity {
             FadeAnimation {
             }

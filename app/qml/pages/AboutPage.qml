@@ -18,7 +18,7 @@ Page {
 
             PageHeader {
                 objectName: "pageHeader"
-                title: qsTr("О приложении")
+                title: qsTr("About App")
                 description: qsTr("v. " + APP_VERSION)
             }
 
@@ -29,7 +29,7 @@ Page {
                 font.pixelSize: Theme.fontSizeLarge
                 textFormat: Text.RichText
                 wrapMode: Text.WordWrap
-                text: qsTr("Home Assistant для ОС Аврора")
+                text: qsTr("Home Assistant for Aurora OS")
             }
 
             Label {
@@ -39,7 +39,7 @@ Page {
                 font.pixelSize: Theme.fontSizeMedium
                 textFormat: Text.RichText
                 wrapMode: Text.WordWrap
-                text: qsTr("Исходный код приложения: https://github.com/yewrepo/my_parcels")
+                text: qsTr("The source code is available on Github:\n https://github.com/yewrepo/my_parcels")
             }
         }
     }

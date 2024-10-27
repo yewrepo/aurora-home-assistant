@@ -30,7 +30,7 @@ Page {
 
             SectionHeader {
                 id: header
-                text: qsTr("Действия с датчиком")
+                text: qsTr("Sensor actions")
             }
 
             Label {
@@ -39,7 +39,7 @@ Page {
 
             Button {
                 id: dataButton
-                text: qsTr("Данные")
+                text: qsTr("Data")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     viewModel.getSensorData()
@@ -48,8 +48,8 @@ Page {
 
             TextSwitch {
                 id: regButton
-                text: qsTr("Регистрация")
-                description: qsTr("Для отправки значений, датчик должен быть зарегистрирован в Home Assistant")
+                text: qsTr("Registration")
+                description: qsTr("To send values, the sensor must be registered")
                 enabled: false
                 onClicked: {
                     viewModel.sensorRegistration()
@@ -57,8 +57,8 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Активация")
-                description: "После регистрации, можно отправлять значения активного датчика на сервер"
+                text: qsTr("Activation")
+                description: qsTr("You can send the values ​​of the active sensor to the server after registration")
                 enabled: false
             }
         }

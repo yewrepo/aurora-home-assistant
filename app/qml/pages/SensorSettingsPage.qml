@@ -12,7 +12,7 @@ Page {
 
     AppBar {
         id: appBar
-        headerText: qsTr("Настройки датчиков")
+        headerText: qsTr("Sensor settings")
     }
 
     SilicaListView {
@@ -45,12 +45,12 @@ Page {
                 Label {
                     id: regLabel
                     y: regLabel.y + descriptionLabel.height
-                    text: "Регистрация: " + isRegitered
+                    text: qsTr("Registration: ") + isRegitered
                 }
                 Label {
                     id: actLabel
                     y: actLabel.y + regLabel.height
-                    text: "Активен: " + isActivated
+                    text: qsTr("Activation: ") + isActivated
                 }
                 TextMetrics {
                     id: metrics

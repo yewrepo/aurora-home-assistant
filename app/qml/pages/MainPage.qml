@@ -19,7 +19,7 @@ Page {
 
         PageHeader {
             id: header
-            title: qsTr("Поиск сервера")
+            title: qsTr("Server search")
         }
 
         Column {
@@ -31,7 +31,7 @@ Page {
             Label {
                 id: errorMessage
                 wrapMode: Text.Wrap
-                text: qsTr("Подключитесь к сети Wi-Fi")
+                text: qsTr("Connect to Wi-Fi first")
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.secondaryHighlightColor
                 anchors { margins: Theme.horizontalPageMargin}
@@ -75,7 +75,7 @@ Page {
 
             Label {
                 wrapMode: Text.Wrap
-                text: qsTr("Введите адрес и порт сервера Home Assistant")
+                text: qsTr("Enter your Home Assistant server address and port")
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.secondaryHighlightColor
                 anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
@@ -84,7 +84,7 @@ Page {
             TextField {
                 id: serverAddress
                 focus: true
-                label: qsTr("Адрес")
+                label: qsTr("Address")
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: serverPort.focus = true
                 anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
@@ -93,7 +93,7 @@ Page {
             TextField {
                 id: serverPort
                 focus: true
-                label: qsTr("Порт")
+                label: qsTr("Port")
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: applyButton.focus = true
                 anchors { left: parent.left; right: parent.right; margins: Theme.horizontalPageMargin }
@@ -101,7 +101,7 @@ Page {
 
             Button {
                 id: applyButton
-                text: qsTr("Проверить")
+                text: qsTr("Check")
                 enabled: (serverAddress.length > 12 && serverPort.length > 0) && serverAddress.text.match("(http:)+[\/\/]+") && viewModel.loadingState != LoadingState.LOADING
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {

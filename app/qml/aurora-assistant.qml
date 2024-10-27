@@ -20,7 +20,7 @@ ApplicationWindow {
 
         DefaultCoverPage {
             id: page
-            serverAddress: "Нет адреса"
+            serverAddress: qsTr("No server")
 
             Component.onCompleted: {
                 var address = coordinator.getSettingsVmLazy().selectedUiItem().serverAddress
