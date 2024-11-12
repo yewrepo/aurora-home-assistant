@@ -1,6 +1,6 @@
 TARGET = ru.yewrepo.auroraassistant
 
-VERSION=0.5.1
+VERSION=0.5.2
 DEFINES+=APP_VERSION=\\\"$$VERSION\\\"
 DEFINES+=APP_ID=\\\"$$TARGET\\\"
 

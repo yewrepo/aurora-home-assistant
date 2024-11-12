@@ -13,9 +13,9 @@
     </message>
     <message>
         <source>The source code is available on Github:
- https://github.com/yewrepo/my_parcels</source>
+ https://github.com/yewrepo/aurora-home-assistant</source>
         <translation>Исходный код приложения на Github:
- https://github.com/yewrepo/my_parcels</translation>
+ https://github.com/yewrepo/aurora-home-assistant</translation>
     </message>
 </context>
 <context>

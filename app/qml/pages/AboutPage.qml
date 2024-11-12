@@ -39,7 +39,7 @@ Page {
                 font.pixelSize: Theme.fontSizeMedium
                 textFormat: Text.RichText
                 wrapMode: Text.WordWrap
-                text: qsTr("The source code is available on Github:\n https://github.com/yewrepo/my_parcels")
+                text: qsTr("The source code is available on Github:\n https://github.com/yewrepo/aurora-home-assistant")
             }
         }
     }
