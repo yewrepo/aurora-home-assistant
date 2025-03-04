@@ -1,0 +1,6 @@
+**.idea/
+**cmake-build-debug/
+# Qt-es
+*.pro.user
+*.pro.user.*
+
