@@ -18,13 +18,14 @@ void BatteryInfoSourceImpl::requestState(Sensor::SensorId sensorId)
 {
     if (sensorId == Sensor::batteryLevelId){
         qDebug() << "request data";
-        connect(timer, &QTimer::timeout, this, &BatteryInfoSourceImpl::updateBatteryInfo);
+        _tempConnection = QObject::connect(timer, &QTimer::timeout, this, &BatteryInfoSourceImpl::updateBatteryInfo);
         timer->start(100);
     }
 }
 
 void BatteryInfoSourceImpl::updateBatteryInfo()
 {
+    QObject::disconnect(_tempConnection);
     timer->stop();
     QDBusPendingReply<quint32> batteryChargeReply =_dbusInterface->asyncCall(QStringLiteral("getBatteryChargePercentage"));
     batCharge = batteryChargeReply.value();

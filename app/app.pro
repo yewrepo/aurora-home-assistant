@@ -31,7 +31,7 @@ SOURCES += \
     src/device/WiFiSource.cpp \
     src/di/DiProvider.cpp \
     src/main.cpp \
-    src/network/AuthRequest.cpp \
+    src/network/AuthRequestManager.cpp \
     src/network/HaRequest.cpp \
     src/network/SensorRequest.cpp \
     src/settings/SettingsRepo.cpp \
@@ -39,6 +39,9 @@ SOURCES += \
     src/ui/SensorSettingUiItem.cpp \
     src/ui/SensorSettingsListModel.cpp \
     src/ui/MiscSettingsUi.cpp \
+    src/updater/HttpSensorUpdater.cpp \
+    src/updater/UpdaterCreator.cpp \
+    src/updater/UpdaterQmlControl.cpp \
     src/vm/LauncherViewModel.cpp \
     src/vm/SensorSettingsViewModel.cpp \
     src/vm/WebViewViewModel.cpp \
@@ -61,7 +64,7 @@ HEADERS += \
     src/di/DiContainer.h \
     src/di/DiProvider.h \
     src/di/EasyImport.h \
-    src/network/AuthRequest.h \
+    src/network/AuthRequestManager.h \
     src/network/HaRequest.h \
     src/network/Mapper.h \
     src/network/SensorRequest.h \
@@ -73,6 +76,10 @@ HEADERS += \
     src/ui/SensorSettingUiItem.h \
     src/ui/SensorSettingsListModel.h \
     src/ui/MiscSettingsUi.h \
+    src/updater/HttpSensorUpdater.h \
+    src/updater/UpdaterCreator.h \
+    src/updater/UpdaterEnums.h \
+    src/updater/UpdaterQmlControl.h \
     src/vm/LauncherViewModel.h \
     src/vm/SensorSettingsViewModel.h \
     src/vm/WebViewViewModel.h \

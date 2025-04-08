@@ -7,7 +7,7 @@
 #include "../di/EasyImport.h"
 #include "../settings/SettingsRepo.h"
 #include "../device/DeviceDataRepo.h"
-#include "../network/AuthRequest.h"
+#include "../network/AuthRequestManager.h"
 #include "../network/Mapper.h"
 #include "connman-qt5/clockmodel.h"
 
@@ -21,12 +21,12 @@ class LauncherViewModel : public QObject
 public:
     shared_ptr<SettingsRepo> _settingsRepo;
     shared_ptr<DeviceDataRepo> _deviceRepo;
-    shared_ptr<AuthRequest> _authRequest;
+    shared_ptr<AuthRequestManager> _authRequest;
 
     ~LauncherViewModel() { }
     explicit LauncherViewModel(QObject *parent = nullptr): QObject(parent) { };
     explicit LauncherViewModel(shared_ptr<SettingsRepo> settingsRepo, shared_ptr<DeviceDataRepo> deviceRepo,
-                               shared_ptr<AuthRequest> authRequest, QObject *parent = nullptr);
+                               shared_ptr<AuthRequestManager> authRequest, QObject *parent = nullptr);
 
     ServerConfig* getServerConfig();
     LoadingState getState();

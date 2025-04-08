@@ -20,7 +20,6 @@ BleInfoSourceImpl::BleInfoSourceImpl(QObject *parent) : InfoSource(parent)
     timer = new QTimer();
     timer2 = new QTimer();
     _dbusInterface = new QDBusInterface(DBUS_SERVICE, DBUS_PATH, DBUS_IFACE, QDBusConnection::systemBus(), this);
-    connect(timer, &QTimer::timeout, this, &BleInfoSourceImpl::updateBleAdaterData);
 
     _dbusScanInterface = new QDBusInterface("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", QDBusConnection::systemBus(), this);
 }
@@ -28,6 +27,7 @@ BleInfoSourceImpl::BleInfoSourceImpl(QObject *parent) : InfoSource(parent)
 void BleInfoSourceImpl::requestState(Sensor::SensorId sensorId)
 {
     if (sensorId == Sensor::bluetoothStateId) {
+        _tempConnection = QObject::connect(timer, &QTimer::timeout, this, &BleInfoSourceImpl::updateBleAdaterData);
         timer->start(100);
     } else if (sensorId == Sensor::bluetoothConnectionId) {
         //TODO: in progress
@@ -46,6 +46,7 @@ void BleInfoSourceImpl::requestState(Sensor::SensorId sensorId)
 
 void BleInfoSourceImpl::updateBleAdaterData()
 {
+    QObject::disconnect(_tempConnection);
     timer->stop();
     emit sensorStateSignal(Sensor::bluetoothStateId, _dbusInterface->property("Powered"), nullptr);
 }

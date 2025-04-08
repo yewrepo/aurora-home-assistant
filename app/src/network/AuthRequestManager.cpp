@@ -1,14 +1,14 @@
-#include "AuthRequest.h"
+#include "AuthRequestManager.h"
 
 const char REPLY_KEY[] = "replyKey";
 
-AuthRequest::AuthRequest(QObject *parent) : QObject(parent)
+AuthRequestManager::AuthRequestManager(QObject *parent) : QObject(parent)
 {
     _manager = new QNetworkAccessManager(this);
-    connect(_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(successReply(QNetworkReply*)));
+    connect(_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(successReply(QNetworkReply *)));
 }
 
-QString AuthRequest::getAuthRequestUrl(ServerConfig* config)
+QString AuthRequestManager::getAuthRequestUrl(ServerConfig *config)
 {
     auto clientId = getClientId(config);
 
@@ -24,39 +24,39 @@ QString AuthRequest::getAuthRequestUrl(ServerConfig* config)
     return req.getEncodedUrl();
 }
 
-QString AuthRequest::getEndpoint(ServerConfig *config)
+QString AuthRequestManager::getEndpoint(ServerConfig *config)
 {
     return getClientId(config);
 }
 
-void AuthRequest::makeAuthCheck(QString address, QString port)
+void AuthRequestManager::makeAuthCheck(QString address, QString port)
 {
     emit serverScheckCallback(LoadingState::LOADING, false);
     HaRequest req(address, port, _manager, this);
-    QNetworkReply* reply = req.get(RequestTag::CHECK_SERVER);
+    QNetworkReply *reply = req.get(RequestTag::CHECK_SERVER);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorReply(QNetworkReply::NetworkError)));
 }
 
-void AuthRequest::postAuthTokens(ServerConfig *config)
+void AuthRequestManager::postAuthTokens(ServerConfig *config)
 {
     emit tokenDataCallback(LoadingState::LOADING, nullptr);
     HaRequest req(config, _manager, this);
     req.route("auth/token");
 
-    QNetworkReply* reply = req.postAuthTokens(RequestTag::GET_AUTH_TOKENS, config->getAuthCode());
+    QNetworkReply *reply = req.postAuthTokens(RequestTag::GET_AUTH_TOKENS, config->getAuthCode());
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorReply(QNetworkReply::NetworkError)));
 }
 
-void AuthRequest::postRefreshTokens(ServerConfig *config, TokensLocal *tokens)
+void AuthRequestManager::postRefreshTokens(ServerConfig *config, TokensLocal *tokens)
 {
     emit tokenRefreshDataCallback(LoadingState::LOADING, nullptr);
     HaRequest req(config, _manager, this);
-    QNetworkReply* reply = req.postRefreshToken(RequestTag::REFRESH_TOKEN, tokens->refreshToken(), getClientId(config));
+    QNetworkReply *reply = req.postRefreshToken(RequestTag::REFRESH_TOKEN, tokens->refreshToken(), getClientId(config));
 
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorReply(QNetworkReply::NetworkError)));
 }
 
-void AuthRequest::registerApp(DeviceData *device, ServerConfig* config, TokensLocal *tokens)
+void AuthRequestManager::registerApp(DeviceData *device, ServerConfig *config, TokensLocal *tokens)
 {
     emit registerDataCallback(LoadingState::LOADING, nullptr);
     QUrl url(QString(appRegisterUrl).arg(getClientId(config)));
@@ -69,7 +69,7 @@ void AuthRequest::registerApp(DeviceData *device, ServerConfig* config, TokensLo
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorReply(QNetworkReply::NetworkError)));
 }
 
-void AuthRequest::successReply(QNetworkReply *reply)
+void AuthRequestManager::successReply(QNetworkReply *reply)
 {
     QString data = reply->readAll();
 
@@ -81,43 +81,58 @@ void AuthRequest::successReply(QNetworkReply *reply)
 
         if (reqType == RequestTag::CHECK_SERVER)
         {
-            if (data.length() > 0 && data.contains("Home Assistant")){
+            if (data.length() > 0 && data.contains("Home Assistant"))
+            {
                 emit serverScheckCallback(LoadingState::SUCCESS, true);
             }
         }
-        else if (reqType == RequestTag::GET_AUTH_TOKENS){
-            if (data.contains("access_token")){
+        else if (reqType == RequestTag::GET_AUTH_TOKENS)
+        {
+            if (data.contains("access_token"))
+            {
                 QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
-                TokensRemote* tokens =  Mapper::tokenDocToRemote(doc);
+                TokensRemote *tokens = Mapper::tokenDocToRemote(doc);
                 emit tokenDataCallback(LoadingState::SUCCESS, tokens);
-            }else {
+            }
+            else
+            {
                 emit tokenDataCallback(LoadingState::ERROR, nullptr);
             }
         }
-        else if (reqType == RequestTag::REGISTER_APP){
-            if (data.contains("webhook_id")){
+        else if (reqType == RequestTag::REGISTER_APP)
+        {
+            if (data.contains("webhook_id"))
+            {
                 QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
-                RegisterDataRemote* registerData = Mapper::registerDocToLocal(doc);
+                RegisterDataRemote *registerData = Mapper::registerDocToLocal(doc);
                 emit registerDataCallback(LoadingState::SUCCESS, registerData);
-            }else {
+            }
+            else
+            {
                 emit registerDataCallback(LoadingState::ERROR, nullptr);
             }
         }
-        else if (reqType == RequestTag::REFRESH_TOKEN){
-            if (data.contains("access_token")){
+        else if (reqType == RequestTag::REFRESH_TOKEN)
+        {
+            if (data.contains("access_token"))
+            {
                 QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
-                TokensRemote* tokens =  Mapper::tokenDocToRemote(doc);
+                TokensRemote *tokens = Mapper::tokenDocToRemote(doc);
                 emit tokenRefreshDataCallback(LoadingState::SUCCESS, tokens);
-            }else {
+            }
+            else
+            {
                 emit tokenRefreshDataCallback(LoadingState::ERROR, nullptr);
             }
         }
-    } else {
+    }
+    else
+    {
         qDebug() << Q_FUNC_INFO << reply->error();
     }
 }
 
-void AuthRequest::errorReply(QNetworkReply::NetworkError error)
+void AuthRequestManager::errorReply(QNetworkReply::NetworkError error)
 {
     qDebug() << Q_FUNC_INFO << error;
     Log::e(error, "AuthRequest::errorReply");
@@ -127,7 +142,7 @@ void AuthRequest::errorReply(QNetworkReply::NetworkError error)
     emit tokenRefreshDataCallback(LoadingState::ERROR, nullptr);
 }
 
-QString AuthRequest::getClientId(ServerConfig *config)
+QString AuthRequestManager::getClientId(ServerConfig *config)
 {
     return QString(appAuthCheckUrl).arg(config->getIpAddress(), QString::number(config->getPort()));
 }

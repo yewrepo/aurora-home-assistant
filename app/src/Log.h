@@ -29,6 +29,11 @@ public:
         d(message, metaEnum.valueToKey(reqType));
     }
 
+    static void dNet(RequestTag reqType, int httpStatus, QString message) {
+        QMetaEnum metaEnum = QMetaEnum::fromType<RequestTagClass::Value>();
+        dNet(message, httpStatus, metaEnum.valueToKey(reqType));
+    }
+
     static void e(QString message, QString tag = "") {
         qDebug() << "----------" << tag;
         qDebug() << tagError << message;
@@ -40,6 +45,14 @@ public:
             qDebug() << "----------" << tag;
             qDebug() << tagDebug << message;
             qDebug() << "----------" << tag;
+        }
+    }
+
+    static void dNet(QString message, int httpStatus, QString tag = "") {
+        if (isDebug){
+            qDebug() << httpStatus << " -------" << tag;
+            qDebug() << tagDebug << message;
+            qDebug() << httpStatus << " -------" << tag;
         }
     }
 

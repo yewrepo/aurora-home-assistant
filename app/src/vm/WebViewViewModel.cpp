@@ -12,7 +12,7 @@ WebViewViewModel::~WebViewViewModel()
 }
 
 WebViewViewModel::WebViewViewModel(shared_ptr<SettingsRepo> settingsRepo, shared_ptr<DeviceDataRepo> deviceRepo,
-                                   shared_ptr<AuthRequest> authRequest, QObject *parent) : QObject(parent)
+                                   shared_ptr<AuthRequestManager> authRequest, QObject *parent) : QObject(parent)
 {
     qDebug();
     _settingsRepo = settingsRepo;

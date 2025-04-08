@@ -27,9 +27,9 @@ QVariant SensorSettingsListModel::data(const QModelIndex &index, int role) const
         case SensId:
             return QVariant(data->sensId());
         case IsRegitered:
-            return QVariant(data->regiteredValue());
+            return QVariant(data->isRegistered());
         case IsActivated:
-            return QVariant(data->activatedValue());
+            return QVariant(data->isActivated());
         default:
             return QVariant();
         }
@@ -69,6 +69,13 @@ void SensorSettingsListModel::addItem(SensorSettingUiItem *item)
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
+}
+
+void SensorSettingsListModel::clear()
+{
+    beginResetModel();
+    _data.clear();
+    endResetModel();
 }
 
 int SensorSettingsListModel::size() const

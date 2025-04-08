@@ -13,18 +13,18 @@
 #include <src/RequestTagClass.h>
 #include <src/data/TokensRemote.h>
 
-class AuthRequest : public QObject
+class AuthRequestManager : public QObject
 {
     Q_OBJECT
 public:
-    AuthRequest(QObject *parent = nullptr);
+    AuthRequestManager(QObject *parent = nullptr);
 
     /**
      * @brief Ссылка для авторизации пользователя через WebView
      * @param config - адрес и порт сервера
      */
-    QString getAuthRequestUrl(ServerConfig* config);
-    QString getEndpoint(ServerConfig* config);
+    QString getAuthRequestUrl(ServerConfig *config);
+    QString getEndpoint(ServerConfig *config);
     void makeAuthCheck(QString address, QString port);
 
     /**
@@ -32,14 +32,14 @@ public:
      * https://developers.home-assistant.io/docs/auth_api#token
      * @param config - адрес, порт сервера, authCode
      */
-    void postAuthTokens(ServerConfig* config);
+    void postAuthTokens(ServerConfig *config);
 
     /**
      * @brief Обновить токен доступа
      * @param config - адрес, порт сервера, authCode
      * @param tokens - пара токенов, чтобы взять refresh
      */
-    void postRefreshTokens(ServerConfig* config, TokensLocal* tokens);
+    void postRefreshTokens(ServerConfig *config, TokensLocal *tokens);
 
     /**
      * @brief Регистрация устройства, тут получаем webhookId
@@ -48,7 +48,7 @@ public:
      * @param config - адрес и порт сервера
      * @param tokens - токены, полученные после авторизации
      */
-    void registerApp(DeviceData* device, ServerConfig* config, TokensLocal* tokens);
+    void registerApp(DeviceData *device, ServerConfig *config, TokensLocal *tokens);
 
 public slots:
     void successReply(QNetworkReply *reply);
@@ -56,12 +56,12 @@ public slots:
 
 signals:
     void serverScheckCallback(LoadingState loadingState, bool isSuccess);
-    void tokenDataCallback(LoadingState loadingState, TokensRemote* tokens);
-    void tokenRefreshDataCallback(LoadingState loadingState, TokensRemote* tokens);
-    void registerDataCallback(LoadingState loadingState, RegisterDataRemote* registerData);
+    void tokenDataCallback(LoadingState loadingState, TokensRemote *tokens);
+    void tokenRefreshDataCallback(LoadingState loadingState, TokensRemote *tokens);
+    void registerDataCallback(LoadingState loadingState, RegisterDataRemote *registerData);
 
 private:
-    QString getClientId(ServerConfig* config);
+    QString getClientId(ServerConfig *config);
 
     const QString authHeader = "Authorization";
 

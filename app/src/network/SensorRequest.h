@@ -17,27 +17,36 @@
 #include <src/LoadingStateClass.h>
 #include <src/RequestTagClass.h>
 #include <src/data/TokensRemote.h>
-#include <src/network/AuthRequest.h>
+#include <src/network/AuthRequestManager.h>
 
 class SensorRequest : public QObject
 {
     Q_OBJECT
 public:
     explicit SensorRequest(QObject *parent = nullptr);
-    void registerSensor(SettingsRepo* repo, QJsonObject sensObject);
+    ~SensorRequest();
+
+    void registerSensor(SettingsRepo *repo, QJsonObject sensObject);
+    void updateSensor(SettingsRepo *repo, QJsonObject sensObject);
 
 public slots:
+    void proceedRequest(ServerConfig *config, QJsonObject sensObject, const RequestTag reqType);
     void successReply(QNetworkReply *reply);
 
 signals:
+    void makeRequest(ServerConfig *config, QJsonObject sensObject, const RequestTag reqType);
     void registerSensorCallback(LoadingState loadingState, QString result);
 
 private:
-    void requestRegisterSensor(ServerConfig* config, QJsonObject sensObject);
+    void requestSensorAction(ServerConfig *config, QJsonObject sensObject, const RequestTag reqType);
+    bool tokenExiped(TokensLocal *tokens);
+    void requestAccessToken(SettingsRepo *repo, QJsonObject sensObject, const RequestTag reqType);
 
-    AuthRequest* _authRequest;
+    AuthRequestManager *_authRequest;
     QNetworkAccessManager *_manager;
     QMetaObject::Connection _connection;
+    QMetaObject::Connection _managerConnection;
+    QMetaObject::Connection _sensorConnection;
 };
 
 #endif // SENSORREQUEST_H

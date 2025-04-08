@@ -1,15 +1,15 @@
 #include "LauncherViewModel.h"
 
 LauncherViewModel::LauncherViewModel(shared_ptr<SettingsRepo> settingsRepo,  shared_ptr<DeviceDataRepo> deviceRepo,
-                                     shared_ptr<AuthRequest> authRequest, QObject *parent) : QObject(parent)
+                                     shared_ptr<AuthRequestManager> authRequest, QObject *parent) : QObject(parent)
 {
     _settingsRepo = settingsRepo;
     _deviceRepo = deviceRepo;
     _authRequest = authRequest;
 
-    QObject::connect(_authRequest.get(), &AuthRequest::serverScheckCallback, this, &LauncherViewModel::serverScheckCallback);
-    QObject::connect(_authRequest.get(), &AuthRequest::tokenDataCallback, this, &LauncherViewModel::tokenDataCallback);
-    QObject::connect(_authRequest.get(), &AuthRequest::registerDataCallback, this, &LauncherViewModel::registerDataCallback);
+    QObject::connect(_authRequest.get(), &AuthRequestManager::serverScheckCallback, this, &LauncherViewModel::serverScheckCallback);
+    QObject::connect(_authRequest.get(), &AuthRequestManager::tokenDataCallback, this, &LauncherViewModel::tokenDataCallback);
+    QObject::connect(_authRequest.get(), &AuthRequestManager::registerDataCallback, this, &LauncherViewModel::registerDataCallback);
 
     QObject::connect(_deviceRepo.get(), &DeviceDataRepo::wifiStateChanged, this, &LauncherViewModel::wifiStateChanged);
 }

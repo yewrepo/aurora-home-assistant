@@ -81,6 +81,34 @@ void SettingsSource::setUpdateInterval(int interval)
     _settings->setValue(configUpdateInterval, interval);
 }
 
+QString SettingsSource::getLastUpdateFormatted()
+{
+    if (_settings->contains(updaterLastUpdateTime)){
+        QString textTime =_settings->value(updaterLastUpdateTime, "").toString();
+        if (textTime != "")
+        {
+            return QDateTime::fromString(textTime, Qt::DateFormat::ISODate).toString(Qt::DateFormat::ISODate);
+        }
+    }
+    return "";
+}
+
+void SettingsSource::setSensorUpdateTime(QDateTime time)
+{
+    QString updateDateTime = time.toString(Qt::DateFormat::ISODate);
+    _settings->setValue(updaterLastUpdateTime, updateDateTime);
+}
+
+bool SettingsSource::updaterStarted()
+{
+    return _settings->value(updaterStartedKey, false).toBool();
+}
+
+void SettingsSource::setUpdaterStarted(bool isStarted)
+{
+    _settings->setValue(updaterStartedKey, isStarted);
+}
+
 TokensLocal *SettingsSource::getStoredTokens()
 {
     auto json = _settings->value(configStoredTokens, "").toString();

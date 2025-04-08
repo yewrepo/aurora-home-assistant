@@ -78,6 +78,14 @@
         <source>Access token</source>
         <translation>Access token</translation>
     </message>
+    <message>
+        <source>Sensor last update</source>
+        <translation>Sensors last update</translation>
+    </message>
+    <message>
+        <source>No updates</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorInfoPage</name>

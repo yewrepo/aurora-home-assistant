@@ -6,22 +6,20 @@ IntStateManager::IntStateManager(Sensor::BasicSensor* sensor,  InfoSource* sourc
     qDebug();
 }
 
-void IntStateManager::sensorStateSignal(Sensor::SensorId sensorId, QVariant value, QMap<QString,QString>* attributes)
-{
-    emit signalSensorResult(QPair(getRegistrarionJson(value.toInt()), getUpdateJson(value.toInt(), attributes)));
-}
-
-void IntStateManager::clearConnection()
-{
-    if (_connection != nullptr){
-        QObject::disconnect(_connection);
-    }
-}
-
 void IntStateManager::createConnection()
 {
     clearConnection();
     _connection = QObject::connect(_source, &InfoSource::sensorStateSignal, this, &IntStateManager::sensorStateSignal);
+}
+
+void IntStateManager::clearConnection()
+{
+    QObject::disconnect(_connection);
+}
+
+void IntStateManager::sensorStateSignal(Sensor::SensorId sensorId, QVariant value, QMap<QString,QString>* attributes)
+{
+    emit signalSensorResult(QPair(getRegistrarionJson(value.toInt()), getUpdateJson(value.toInt(), attributes)));
 }
 
 void IntStateManager::update()

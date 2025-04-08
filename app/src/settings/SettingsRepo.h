@@ -20,8 +20,14 @@ public:
     void setServerConfig(ServerConfig* config);
     void storeAuthCode(QString authCode);
     void storeWebhookId(QString webhookId);
+
     void setUpdateInterval(int interval);
     int getUpdateInterval();
+    QString getLastUpdateFormatted();
+    void setSensorUpdateTimeCurrent();
+    bool updaterStarted();
+    void setUpdaterStarted(bool isStarted);
+
     bool hasWebhookId();
     TokensLocal* getTokens();
     TokensLocal* storeTokens(TokensRemote* tokens);
@@ -32,17 +38,22 @@ public:
      */
     bool showStartupHint();
     void removeAll();
+    QList<Sensor::BasicSensor*> getActivatedSensorList();
     QList<SensorSettingUiItem*> getSensorsConfig();
     SensorSettingUiItem* getUiItemByIdCaption(QString caption);
     Sensor::BasicSensor* getSensorByIdCaption(QString caption);
 
     void setRegistered(QString sensorUniqueId, bool registered);
+    bool isRegistered(QString sensorUniqueId);
+    void setActivated(QString sensorUniqueId, bool activated1);
+    bool isActivated(QString sensorUniqueId);
+    bool switchActivation(QString sensorUniqueId);
 
 private:
     QMap<Sensor::SensorId, Sensor::BasicSensor*> getSensorMapLazy();
 
     QList<SensorSettingUiItem*> _sensorUiItems;
-    QMap<Sensor::SensorId, Sensor::BasicSensor*> _map;
+    QMap<Sensor::SensorId, Sensor::BasicSensor*> _map {};
     shared_ptr<SettingsSource> _source;
     shared_ptr<AvailableSensors> _availableSensors;
 };

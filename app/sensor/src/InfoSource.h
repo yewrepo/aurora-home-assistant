@@ -15,6 +15,9 @@ public:
 
 signals:
     void sensorStateSignal(Sensor::SensorId sensorId, QVariant value, QMap<QString, QString>* attributes = nullptr);
+
+protected:
+    QMetaObject::Connection _tempConnection;
 };
 
 

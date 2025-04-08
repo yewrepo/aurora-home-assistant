@@ -3,11 +3,12 @@
 
 #include <src/device/SensorManagerRepo.h>
 #include <src/network/SensorRequest.h>
+#include "../updater/UpdaterQmlControl.h"
 #include "../settings/SettingsRepo.h"
 #include "../settings/SettingsSource.h"
 #include "../vm/LauncherViewModel.h"
 #include "../device/DeviceDataRepo.h"
-#include "../network/AuthRequest.h"
+#include "../network/AuthRequestManager.h"
 #include "../vm/WebViewViewModel.h"
 #include "../vm/SensorSettingsViewModel.h"
 #include "EasyImport.h"
@@ -35,6 +36,11 @@ public:
         return make_unique<SensorRequest>();
     }
 
+    unique_ptr<UpdaterQmlControl> updaterControlsInstance()
+    {
+        return make_unique<UpdaterQmlControl>();
+    }
+
     unique_ptr<LauncherViewModel> launcherVMInstance(shared_ptr<SettingsRepo> repo, shared_ptr<DeviceDataRepo> deviceRepo)
     {
         return make_unique<LauncherViewModel>(repo, deviceRepo, getAuthRequest());
@@ -46,9 +52,9 @@ public:
     }
 
     unique_ptr<SensorSettingsViewModel> sensorSettingsVmInstance(shared_ptr<SettingsRepo> repo, shared_ptr<SensorManagerRepo> managerRepo,
-                                                                 shared_ptr<SensorRequest> sensorRequest)
+                                                                 shared_ptr<SensorRequest> sensorRequest, shared_ptr<UpdaterQmlControl> updaterControls)
     {
-        return make_unique<SensorSettingsViewModel>(repo, managerRepo, sensorRequest);
+        return make_unique<SensorSettingsViewModel>(repo, managerRepo, sensorRequest, updaterControls);
     }
 
 protected:
@@ -56,7 +62,7 @@ protected:
     virtual shared_ptr<AvailableSensors> getAvailableSensors() { return nullptr;};
     virtual shared_ptr<WiFiSource> getWiFiSource() { return nullptr;};
     virtual shared_ptr<DeviceDataSource> getDeviceInfoSourceSource() { return nullptr;};
-    virtual shared_ptr<AuthRequest> getAuthRequest() { return nullptr;};
+    virtual shared_ptr<AuthRequestManager> getAuthRequest() { return nullptr;};
 };
 
 #endif // DICONTAINER_H

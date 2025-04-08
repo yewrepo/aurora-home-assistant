@@ -10,6 +10,7 @@
 #include <src/ui/MiscSettingsUi.h>
 #include <src/ui/SensorSettingUiItem.h>
 #include <src/ui/SensorSettingsListModel.h>
+#include "./src/updater/UpdaterCreator.h"
 #include <QtDBus/QDBusMetaType>
 
 int main(int argc, char *argv[])
@@ -21,11 +22,12 @@ int main(int argc, char *argv[])
     qRegisterMetaType<ServerConfig*>("ServerConfig*");
     qRegisterMetaType<SensorSettingUiItem*>("SensorSettingUiItem*");
     qRegisterMetaType<QList<UpdateInterval*>>("QList<UpdateInterval*>");
-    qRegisterMetaType<QList<SensorSettingUiItem*>>("QList<SensorSettingUiItem*>"); // < - ???
+    qRegisterMetaType<QList<SensorSettingUiItem*>>("QList<SensorSettingUiItem*>");
     qmlRegisterType<SensorSettingsListModel>("ru.yewrepo.custom", 1, 0, "SensorSettingsListModel");
     qmlRegisterType<SensorSettingsViewModel>("ru.yewrepo.custom", 1, 0, "SensorSettingsViewModel");
     qmlRegisterType<LauncherViewModel>("ru.yewrepo.custom", 1, 0, "LauncherViewModel");
     qmlRegisterType<WebViewViewModel>("ru.yewrepo.custom", 1, 0, "WebViewViewModel");
+    qmlRegisterType<UpdaterQmlControl>("ru.yewrepo.custom", 1, 0, "UpdaterControls");
     qmlRegisterType<DiProvider>("ru.yewrepo.custom", 1, 0, "DiProvider");
 
     QGuiApplication *app = Aurora::Application::application(argc, argv);
@@ -34,13 +36,16 @@ int main(int argc, char *argv[])
     application->setApplicationName(QStringLiteral("aurora-assistant"));
     application->setApplicationVersion(QStringLiteral(APP_VERSION));
 
-    auto diProvider = make_shared<DiProvider>();
+    shared_ptr<DiProvider> diProvider = make_shared<DiProvider>();
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
     view->rootContext()->setContextProperty("APP_VERSION", QString(APP_VERSION));
     view->rootContext()->setContextProperty("diProvider", diProvider.get());
     view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/aurora-assistant.qml")));
     view->show();
+
+    UpdaterCreator creator(diProvider->lazyUpdaterControls(), app);
+    creator.init(app, diProvider);
 
     return application->exec();
 }

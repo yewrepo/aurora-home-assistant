@@ -7,7 +7,7 @@ DiProvider::DiProvider(QObject *parent) : QObject(parent)
 
 DiProvider::~DiProvider()
 {
-    qDebug();
+    qDebug() << "DiProvider destroyed";
 }
 
 shared_ptr<SettingsRepo> DiProvider::lazySettingsRepo()
@@ -42,6 +42,14 @@ shared_ptr<SensorRequest> DiProvider::lazySensorRequest()
     return sensorRequest;
 }
 
+shared_ptr<UpdaterQmlControl> DiProvider::lazyUpdaterControls()
+{
+    if(!updaterControls) {
+        updaterControls = diContainer.updaterControlsInstance();
+    }
+    return updaterControls;
+}
+
 LauncherViewModel* DiProvider::mainVmInstance()
 {
     return unique_unwrap(diContainer.launcherVMInstance(lazySettingsRepo(), lazyDeviceDataRepo()));
@@ -54,5 +62,5 @@ WebViewViewModel* DiProvider::webAppVmInstance()
 
 SensorSettingsViewModel* DiProvider::sensorSettingsVmInstance()
 {
-    return unique_unwrap(diContainer.sensorSettingsVmInstance(lazySettingsRepo(), lazyManagersRepo(), lazySensorRequest()));
+    return unique_unwrap(diContainer.sensorSettingsVmInstance(lazySettingsRepo(), lazyManagersRepo(), lazySensorRequest(), lazyUpdaterControls()));
 }

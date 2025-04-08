@@ -59,10 +59,6 @@ private:
     void init(QString address, QString port, QString webhookId, QNetworkAccessManager* manager);
     QUrl getUrl();
 
-
-
-signals:
-
 };
 
 #endif // HAREQUEST_H

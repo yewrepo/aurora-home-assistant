@@ -12,7 +12,8 @@ public:
         GET_AUTH_TOKENS,
         REGISTER_APP,
         REFRESH_TOKEN,
-        SENSOR_REGISTERING
+        SENSOR_REGISTERING,
+        SENSOR_UPDATE
     };
     Q_ENUM(Value)
 

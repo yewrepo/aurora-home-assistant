@@ -28,6 +28,7 @@ public:
 
     Q_INVOKABLE void removeItem(int index);
     Q_INVOKABLE void addItem(SensorSettingUiItem *item);
+    Q_INVOKABLE void clear();
 
     int size() const;
 

@@ -13,6 +13,7 @@ class SensorManagerRepo : public QObject
     Q_OBJECT
 public:
     explicit SensorManagerRepo(QObject *parent = nullptr);
+    ~SensorManagerRepo();
 
     void getSensorData(Sensor::BasicSensor* sensor);
 
@@ -20,11 +21,13 @@ signals:
     void sensorData(Sensor::BasicSensor* sensor, QPair<QJsonObject, QJsonObject> jsonPair);
 
 private:
-    QMetaObject::Connection _connection;
+    void disconnectFromMap(Sensor::BasicSensor *sensor);
+
     IntStateManager* _batteryLevelManager;
     IntStateManager* _bluetoothStateManager;
     IntStateManager* _bluetoothConnectionsManager;
 
+    QMap<Sensor::BasicSensor*, QMetaObject::Connection> connectionsMap;
 };
 
 #endif // SENSORMANAGERREPO_H
