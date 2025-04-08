@@ -36,7 +36,6 @@ Page {
             ComboBox {
                 label: qsTr("Sensors update interval")
                 currentIndex: viewModel.currentInterval
-                enabled: false
                 menu: ContextMenu {
                     Repeater {
                         model: intervals

@@ -80,11 +80,11 @@
     </message>
     <message>
         <source>Sensor last update</source>
-        <translation>Sensors last update</translation>
+        <translation>Last update</translation>
     </message>
     <message>
         <source>No updates</source>
-        <translation type="unfinished"></translation>
+        <translation>No updates</translation>
     </message>
 </context>
 <context>
