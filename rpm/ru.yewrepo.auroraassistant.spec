@@ -1,7 +1,7 @@
 Name:       ru.yewrepo.auroraassistant
 Summary:    Клиент Home Assistant
 Version:    0.6.1
-Release:    12
+Release:    21
 License:    BSD-3-Clause
 URL:        https://auroraos.ru
 Source0:    %{name}-%{version}.tar.bz2
