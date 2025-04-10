@@ -18,7 +18,7 @@ void UpdaterCreator::init(QGuiApplication *app, shared_ptr<DiProvider> diProvide
     _updaterQmlControl = diProvider->lazyUpdaterControls();
     _updater = new HttpSensorUpdater(diProvider->settingsRepo, diProvider->deviceRepo,
                                      diProvider->diContainer.sensorManagerRepoInstance(),
-                                     diProvider->diContainer.sensorSensorRequestInstance(), app);
+                                     diProvider->diContainer.sensorSensorRequestInstance());
 
     _connections.append(QObject::connect(_updaterQmlControl.get(), &UpdaterQmlControl::action, _updater, &HttpSensorUpdater::action));
     _connections.append(QObject::connect(_updater, &HttpSensorUpdater::state, this, &UpdaterCreator::stateUpdater));

@@ -60,7 +60,6 @@ HEADERS += \
     src/device/AvailableSensors.h \
     src/device/DeviceDataRepo.h \
     src/device/DeviceDataSource.h \
-    src/device/InfoSource.h \
     src/device/SensorManagerRepo.h \
     src/device/WiFiSource.h \
     src/di/DiContainer.h \
