@@ -78,6 +78,14 @@
         <source>Access token</source>
         <translation>Access token</translation>
     </message>
+    <message>
+        <source>Sensor last update</source>
+        <translation>Last update</translation>
+    </message>
+    <message>
+        <source>No updates</source>
+        <translation>No updates</translation>
+    </message>
 </context>
 <context>
     <name>SensorInfoPage</name>
@@ -153,6 +161,14 @@
     <message>
         <source>No server</source>
         <translation>No server</translation>
+    </message>
+    <message>
+        <source>Updater running</source>
+        <translation>Updater running</translation>
+    </message>
+    <message>
+        <source>Updater stopped</source>
+        <translation>Updater stopped</translation>
     </message>
 </context>
 </TS>

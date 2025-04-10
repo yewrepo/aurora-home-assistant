@@ -50,7 +50,8 @@ Page {
                 id: regButton
                 text: qsTr("Registration")
                 description: qsTr("To send values, the sensor must be registered")
-                enabled: false
+                enabled: true//!viewModel.sensorRegistered
+                checked: viewModel.sensorRegistered
                 onClicked: {
                     viewModel.sensorRegistration()
                 }
@@ -59,7 +60,11 @@ Page {
             TextSwitch {
                 text: qsTr("Activation")
                 description: qsTr("You can send the values ​​of the active sensor to the server after registration")
-                enabled: false
+                enabled: regButton.checked
+                checked: viewModel.sensorActivated
+                onClicked: {
+                   checked = viewModel.switchActivation()
+                }
             }
         }
     }

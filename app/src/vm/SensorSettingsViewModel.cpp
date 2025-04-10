@@ -1,13 +1,18 @@
 #include "SensorSettingsViewModel.h"
 
-SensorSettingsViewModel::SensorSettingsViewModel(shared_ptr<SettingsRepo> settingsRepo, shared_ptr<SensorManagerRepo> managerRepo, shared_ptr<SensorRequest> sensorRequest, QObject *parent) : QObject(parent)
+//https://developers.home-assistant.io/docs/api/native-app-integration/sensors
+SensorSettingsViewModel::SensorSettingsViewModel(shared_ptr<SettingsRepo> settingsRepo, shared_ptr<SensorManagerRepo> managerRepo,
+                                                 shared_ptr<SensorRequest> sensorRequest,  shared_ptr<UpdaterQmlControl> updaterControls, QObject *parent) : QObject(parent)
 {
     qDebug();
     _settingsRepo = settingsRepo;
     _managerRepo = managerRepo;
     _sensorRequest = sensorRequest;
+    _updaterControls = updaterControls;
 
     _intervals.append(UpdateInterval::getList());
+
+    _updaterStateConnection = QObject::connect(_updaterControls.get(), &UpdaterQmlControl::stateSignal, this, &SensorSettingsViewModel::updaterState);
 }
 
 void SensorSettingsViewModel::start()
@@ -86,9 +91,61 @@ void SensorSettingsViewModel::sensorRegistration()
     _managerRepo->getSensorData(_selectedSensor);
 }
 
+bool SensorSettingsViewModel::switchActivation()
+{
+    if (_selectedSensor != nullptr)
+    {
+        return _settingsRepo.get()->switchActivation(_selectedSensor->id().caption());
+    }
+    return false;
+}
+
 MiscSettingsUi *SensorSettingsViewModel::getMiscSettings()
 {
     return _settingsRepo.get()->getMiscSettings();
+}
+
+void SensorSettingsViewModel::startUpdates()
+{
+    _updaterControls.get()->startUpdates();
+}
+
+void SensorSettingsViewModel::stopUpdates()
+{
+    _updaterControls.get()->stopUpdates();
+}
+
+bool SensorSettingsViewModel::updaterIsWorking()
+{
+    return _updaterControls.get()->updaterIsWorking();
+}
+
+QString SensorSettingsViewModel::updaterLastUpdate()
+{
+    return _settingsRepo.get()->getLastUpdateFormatted();
+}
+
+bool SensorSettingsViewModel::selectedSensorRegistered()
+{
+    if (_selectedSensor != nullptr)
+    {
+        return _settingsRepo.get()->isRegistered(_selectedSensor->id().caption());
+    }
+    return false;
+}
+
+bool SensorSettingsViewModel::selectedSensorActivated()
+{
+    if (_selectedSensor != nullptr)
+    {
+        return _settingsRepo.get()->isActivated(_selectedSensor->id().caption());
+    }
+    return false;
+}
+
+void SensorSettingsViewModel::updaterState(UpdaterState state)
+{
+    emit updaterWorkingStateChanged(state);
 }
 
 void SensorSettingsViewModel::sensorRegisterationRequest(Sensor::BasicSensor *sensor, QJsonObject sensorJson)
@@ -96,7 +153,6 @@ void SensorSettingsViewModel::sensorRegisterationRequest(Sensor::BasicSensor *se
     emit registerSensorCallback(LoadingState::LOADING);
     _currentConnection = QObject::connect(_sensorRequest.get(), &SensorRequest::registerSensorCallback,
                                           [=](LoadingState loadingState, QString result){
-        //QObject::disconnect(_currentConnection);
         Log::d(result, "SensorRequest::sensorRegisterationRequest");
 
         if (loadingState == LoadingState::SUCCESS) {

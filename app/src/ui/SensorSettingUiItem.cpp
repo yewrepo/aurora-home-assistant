@@ -40,11 +40,6 @@ void SensorSettingUiItem::setIsRegitered(bool isRegitered)
     _isRegistered = isRegitered;
 }
 
-QString SensorSettingUiItem::regiteredValue() const
-{
-    return _isRegistered ? "Да" : "Нет";
-}
-
 bool SensorSettingUiItem::isRegistered() const
 {
     return _isRegistered;
@@ -53,11 +48,6 @@ bool SensorSettingUiItem::isRegistered() const
 void SensorSettingUiItem::setIsActivated(bool isActivated)
 {
     _isActivated = isActivated;
-}
-
-QString SensorSettingUiItem::activatedValue() const
-{
-    return _isActivated ? "Вкл." : "Выкл.";
 }
 
 bool SensorSettingUiItem::isActivated() const

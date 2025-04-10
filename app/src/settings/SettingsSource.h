@@ -36,9 +36,6 @@ public:
     QString getAuthCode();
     void setAuthCode(QString authCode);
 
-    int getUpdateInterval();
-    void setUpdateInterval(int interval);
-
     TokensLocal* getStoredTokens();
     void setStoredTokens(TokensLocal* tokens);
 
@@ -46,6 +43,14 @@ public:
     SensorConfig getSensorConfig(QString sensorUniqueId);
     void setRegistered(QString sensorUniqueId, bool registered);
     void setActivated(QString sensorUniqueId, bool activated);
+
+    int getUpdateInterval();
+    void setUpdateInterval(int interval);
+
+    QString getLastUpdateFormatted();
+    void setSensorUpdateTime(QDateTime time);
+    bool updaterStarted();
+    void setUpdaterStarted(bool isStarted);
 
 private:
     void setSensorConfig(QString sensorUniqueId, SensorConfig* config);
@@ -59,6 +64,9 @@ private:
     const QString configStoredTokens = "config/storedTokens";
     const QString configUpdateInterval = "config/updateInterval";
     const QString configStartupHint = "config/startupHint";
+
+    const QString updaterLastUpdateTime = "updater/lastUpdateTime";
+    const QString updaterStartedKey = "updater/started";
 
     const QString defaultIpAddress = "http://192.168.1.0";
     const int defaultPort = 8123;

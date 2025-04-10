@@ -9,10 +9,11 @@ ApplicationWindow {
     cover: defaultCover
     allowedOrientations: defaultAllowedOrientations
 
+    property var coverPageLink
+
     Coordinator {
         id: coordinator
         pageStack: appWindow.pageStack
-
     }
 
     Component {
@@ -21,9 +22,12 @@ ApplicationWindow {
         DefaultCoverPage {
             id: page
             serverAddress: qsTr("No server")
+            updaterStatus: getUpdaterStatus()
 
             Component.onCompleted: {
-                var address = coordinator.getSettingsVmLazy().selectedUiItem().serverAddress
+                coverPageLink = page
+                var vm = coordinator.getSettingsVmLazy()
+                var address = vm.selectedUiItem().serverAddress
                 if (address !== "" && address !== undefined) {
                     page.serverAddress = address.substring(address.lastIndexOf("/") + 1, address.length)
                 }
@@ -31,7 +35,21 @@ ApplicationWindow {
         }
     }
 
+    function getUpdaterStatus() {
+        var vm = coordinator.getSettingsVmLazy()
+        var isWorking = vm.updaterIsWorking()
+        return isWorking ? qsTr("Updater running") : qsTr("Updater stopped")
+    }
+
     Component.onCompleted: {
         coordinator.start()
+    }
+
+    Connections {
+        target: coverUpdater
+
+        onUpdateCover: {
+            coverPageLink.updaterStatus = getUpdaterStatus()
+        }
     }
 }

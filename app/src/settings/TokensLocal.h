@@ -9,23 +9,22 @@ class TokensLocal : public QObject {
     Q_OBJECT
 
 public:
-    explicit TokensLocal(QObject *parent = nullptr): QObject(parent) { qDebug(); };
+    explicit TokensLocal(QObject *parent = nullptr): QObject(parent) { };
 
     QString accessToken(){
         return _accessToken;
     }
 
-    void setAccessToken( QString accessToken){
+    void setAccessToken(QString accessToken){
         _accessToken = accessToken;
     }
-
 
     QString refreshToken()
     {
         return _refreshToken;
     }
 
-    void setRefreshToken( QString refreshToken)
+    void setRefreshToken(QString refreshToken)
     {
         _refreshToken = refreshToken;
     }

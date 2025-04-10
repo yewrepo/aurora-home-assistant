@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <auroraapp.h>
 #include "DiContainer.h"
+#include "../updater/UpdaterQmlControl.h"
 #include "../settings/SettingsRepo.h"
 #include "../settings/SettingsSource.h"
 #include "../device/DeviceDataRepo.h"
@@ -31,8 +32,8 @@ public:
         return make_unique<DeviceDataSource>();
     }
 
-    shared_ptr<AuthRequest> getAuthRequest(){
-        return make_unique<AuthRequest>();
+    shared_ptr<AuthRequestManager> getAuthRequest(){
+        return make_unique<AuthRequestManager>();
     }
 };
 
@@ -49,12 +50,15 @@ public:
     shared_ptr<DeviceDataRepo> deviceRepo;
     shared_ptr<SensorManagerRepo> sensorManagerRepo;
     shared_ptr<SensorRequest> sensorRequest;
+    shared_ptr<UpdaterQmlControl> updaterControls;
 
     shared_ptr<SettingsRepo> lazySettingsRepo();
     shared_ptr<DeviceDataRepo> lazyDeviceDataRepo();
     shared_ptr<SensorManagerRepo> lazyManagersRepo();
     shared_ptr<SensorRequest> lazySensorRequest();
+    shared_ptr<UpdaterQmlControl> lazyUpdaterControls();
 
+    Q_INVOKABLE UpdaterQmlControl* updaterControlsInstance();
     Q_INVOKABLE LauncherViewModel* mainVmInstance();
     Q_INVOKABLE WebViewViewModel* webAppVmInstance();
     Q_INVOKABLE SensorSettingsViewModel* sensorSettingsVmInstance();

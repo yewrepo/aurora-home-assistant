@@ -1,17 +1,17 @@
 #include "BasicManager.h"
 
-template<typename T>
-BasicManager<T>::BasicManager(Sensor::BasicSensor* sensor, InfoSource* source)
+template <typename T>
+BasicManager<T>::BasicManager(Sensor::BasicSensor *sensor, InfoSource *source)
 {
     _sensor = sensor;
     _source = source;
 }
 
-template<typename T>
+template <typename T>
 QJsonObject BasicManager<T>::getRegistrarionJson(T state)
 {
     QJsonObject data;
-    data[fieldDeviceClass] = _sensor->deviceClass();
+    //data[fieldDeviceClass] = _sensor->deviceClass(); <- HA ругался
     data[fieldIcon] = _sensor->statelessIcon().caption();
     data[fieldName] = _sensor->name();
     data[fieldState] = state;
@@ -21,9 +21,11 @@ QJsonObject BasicManager<T>::getRegistrarionJson(T state)
     data[fieldStateClass] = _sensor->stateClass().caption();
     data[fieldEntityCategory] = _sensor->entityCategory().caption();
 
-    foreach(const QString& key, data.keys()) {
+    foreach (const QString &key, data.keys())
+    {
         QJsonValue value = data.value(key);
-        if (value.toString() == "null"){
+        if (value.toString() == "null")
+        {
             data.remove(key);
         }
     }
@@ -35,20 +37,23 @@ QJsonObject BasicManager<T>::getRegistrarionJson(T state)
     return result;
 }
 
-template<typename T>
-QJsonObject BasicManager<T>::getUpdateJson(T state, QMap<QString, QString>* attributes)
+template <typename T>
+QJsonObject BasicManager<T>::getUpdateJson(T state, QMap<QString, QString> *attributes)
 {
     QJsonObject attrs;
-    if (attributes != nullptr){
+    if (attributes != nullptr)
+    {
         QMapIterator<QString, QString> iterator(*attributes);
-        while (iterator.hasNext()) {
+        while (iterator.hasNext())
+        {
             iterator.next();
             attrs[iterator.key()] = iterator.value();
         }
     }
 
     QJsonObject data;
-    if (!attrs.isEmpty()){
+    if (!attrs.isEmpty())
+    {
         data[fieldAttributes] = attrs;
     }
     data[fieldIcon] = _sensor->statelessIcon().caption();
@@ -63,7 +68,7 @@ QJsonObject BasicManager<T>::getUpdateJson(T state, QMap<QString, QString>* attr
     return data;
 }
 
-template<typename T>
+template <typename T>
 QString BasicManager<T>::objToJson(QJsonObject obj)
 {
     QJsonDocument doc(obj);

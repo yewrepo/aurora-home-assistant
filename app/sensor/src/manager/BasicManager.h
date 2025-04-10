@@ -26,6 +26,11 @@ protected:
     InfoSource* _source {nullptr};
 
     QJsonObject getRegistrarionJson(T state);
+
+    /*
+     * Обновление происходит сразу нескольких датчиков, поэтому type:"update_sensor_states"
+     * добавляется потом
+     */
     QJsonObject getUpdateJson(T state, QMap<QString,QString>* attributes);
     QString objToJson(QJsonObject obj);
 

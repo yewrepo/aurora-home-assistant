@@ -42,9 +42,32 @@ void SettingsRepo::setUpdateInterval(int interval)
     _source->setUpdateInterval(interval);
 }
 
+/*
+ * Минуты
+ */
 int SettingsRepo::getUpdateInterval()
 {
     return _source->getUpdateInterval();
+}
+
+QString SettingsRepo::getLastUpdateFormatted()
+{
+    return _source->getLastUpdateFormatted();
+}
+
+void SettingsRepo::setSensorUpdateTimeCurrent()
+{
+    _source->setSensorUpdateTime(QDateTime::currentDateTime());
+}
+
+bool SettingsRepo::updaterStarted()
+{
+    return _source.get()->updaterStarted();
+}
+
+void SettingsRepo::setUpdaterStarted(bool isStarted)
+{
+    _source.get()->setUpdaterStarted(isStarted);
 }
 
 bool SettingsRepo::hasWebhookId()
@@ -113,6 +136,24 @@ void SettingsRepo::removeAll()
     }
 }
 
+QList<Sensor::BasicSensor*> SettingsRepo::getActivatedSensorList()
+{
+    QList<Sensor::BasicSensor*> result {};
+    _map = getSensorMapLazy();
+    QMapIterator<Sensor::SensorId, Sensor::BasicSensor*> iterator(_map);
+    while (iterator.hasNext())
+    {
+        iterator.next();
+        QString idCaption = iterator.key().caption();
+        SensorConfig config = _source->getSensorConfig(idCaption);
+        if (config.isActivated())
+        {
+            result.append(iterator.value());
+        }
+    }
+    return result;
+}
+
 QList<SensorSettingUiItem*> SettingsRepo::getSensorsConfig()
 {
     if (_sensorUiItems.isEmpty()){
@@ -162,6 +203,28 @@ Sensor::BasicSensor* SettingsRepo::getSensorByIdCaption(QString caption)
 void SettingsRepo::setRegistered(QString sensorUniqueId, bool registered)
 {
     _source->setRegistered(sensorUniqueId, registered);
+}
+
+bool SettingsRepo::isRegistered(QString sensorUniqueId)
+{
+    return _source->getSensorConfig(sensorUniqueId).isRegistered();
+}
+
+void SettingsRepo::setActivated(QString sensorUniqueId, bool activated)
+{
+    _source->setActivated(sensorUniqueId, activated);
+}
+
+bool SettingsRepo::isActivated(QString sensorUniqueId)
+{
+    return _source->getSensorConfig(sensorUniqueId).isActivated();
+}
+
+bool SettingsRepo::switchActivation(QString sensorUniqueId)
+{
+    bool inverted = !isActivated(sensorUniqueId);
+    setActivated(sensorUniqueId, inverted);
+    return inverted;
 }
 
 QMap<Sensor::SensorId, Sensor::BasicSensor *> SettingsRepo::getSensorMapLazy()

@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QDebug>
 
-class DeviceData : public QObject {
+class DeviceData : public QObject
+{
     Q_OBJECT
     Q_PROPERTY(QString deviceId READ deviceId)
     Q_PROPERTY(QString appId READ appId)
@@ -17,7 +18,7 @@ class DeviceData : public QObject {
     Q_PROPERTY(QString osVerison READ osVerison)
 
 public:
-    explicit DeviceData(QObject *parent = nullptr): QObject(parent) { qDebug(); };
+    explicit DeviceData(QObject *parent = nullptr) : QObject(parent) { qDebug(); };
 
     QString deviceId()
     {
@@ -44,7 +45,7 @@ public:
         return _appName;
     }
 
-    void setAppName( QString newAppName)
+    void setAppName(QString newAppName)
     {
         _appName = newAppName;
     }

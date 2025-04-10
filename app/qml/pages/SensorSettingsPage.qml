@@ -82,7 +82,8 @@ Page {
         target: viewModel
 
         onSensorListUpdate: {
-            console.log("size: "+sensorList.length)
+            console.log("size: " + sensorList.length)
+            listModel.clear()
             for (var i = 0; i < sensorList.length; i++) {
                 console.log(sensorList[i])
                 listModel.addItem(sensorList[i])

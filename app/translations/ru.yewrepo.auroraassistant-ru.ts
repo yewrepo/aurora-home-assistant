@@ -78,6 +78,14 @@
         <source>Access token</source>
         <translation>Токен доступа</translation>
     </message>
+    <message>
+        <source>Sensor last update</source>
+        <translation>Последнее обновление</translation>
+    </message>
+    <message>
+        <source>No updates</source>
+        <translation>Нет данных</translation>
+    </message>
 </context>
 <context>
     <name>SensorInfoPage</name>
@@ -153,6 +161,14 @@
     <message>
         <source>No server</source>
         <translation>Нет сервера</translation>
+    </message>
+    <message>
+        <source>Updater running</source>
+        <translation>Обновление запущено</translation>
+    </message>
+    <message>
+        <source>Updater stopped</source>
+        <translation>Обновление остановлено</translation>
     </message>
 </context>
 </TS>

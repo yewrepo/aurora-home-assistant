@@ -36,7 +36,6 @@ Page {
             ComboBox {
                 label: qsTr("Sensors update interval")
                 currentIndex: viewModel.currentInterval
-                enabled: false
                 menu: ContextMenu {
                     Repeater {
                         model: intervals
@@ -45,6 +44,90 @@ Page {
                             onClicked: {
                                 viewModel.setUpdateInterval(intervals[index].min)
                             }
+                        }
+                    }
+                }
+            }
+            Item {
+                id: updaterLayout
+                x: Theme.horizontalPageMargin
+                enabled: true
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                height: childrenRect.height
+
+                Label {
+                    id: updaterLastUpdate
+                    text: qsTr("Sensor last update")
+                    font.pixelSize: Theme.fontSizeMedium
+                    truncationMode: TruncationMode.Fade
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        rightMargin: Theme.paddingSmall
+                    }
+                }
+
+                Label {
+                    id: updaterLastUpdateValue
+                    text: viewModel.updaterLastUpdateTime === "" ? qsTr("No updates") : viewModel.updaterLastUpdateTime
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    color: Theme.highlightColor
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 2
+                    truncationMode: TruncationMode.Fade
+                    anchors {
+                        top: updaterLastUpdate.bottom
+                        left: parent.left
+                        right: parent.right
+                    }
+                }
+                ProgressCircle {
+                    id: progressCircle
+                    width: Theme.dp(24)
+                    height: Theme.dp(24)
+                    visible: false
+                    anchors{
+                        top: updaterLastUpdateValue.bottom
+                        topMargin: Theme.paddingSmall
+                        left: parent.left
+                    }
+
+                    Timer {
+                        id: progressTimer
+                        interval: 32
+                        repeat: true
+                        onTriggered: progressCircle.value = (progressCircle.value + 0.1) % 1.0
+                        running: progressCircle.visible
+                    }
+                }
+
+                Row {
+                    id: updaterButtons
+                    spacing: Theme.paddingLarge
+                    anchors {
+                        top: updaterLastUpdate.bottom
+                        right: parent.right
+                        rightMargin: Theme.paddingSmall
+                    }
+
+                    IconButton {
+                        id: updaterPause
+                        icon.source: "image://theme/icon-l-pause"
+                        visible: viewModel.updaterWorking
+                        onClicked: {
+                            updaterPause.visible = false
+                            updaterRun.visible = true
+                            viewModel.stopUpdates()
+                        }
+                    }
+                    IconButton {
+                        id: updaterRun
+                        icon.source: "image://theme/icon-l-play"
+                        visible: !viewModel.updaterWorking
+                        onClicked: {
+                            updaterPause.visible = true
+                            updaterRun.visible = false
+                            viewModel.startUpdates();
                         }
                     }
                 }
@@ -154,5 +237,8 @@ Page {
     Connections{
         target: viewModel
 
+        onUpdaterWorkingStateChanged: {
+           //TODO: !
+        }
     }
 }
