@@ -1,6 +1,6 @@
 TARGET = ru.yewrepo.auroraassistant
 
-VERSION=0.5.2
+VERSION=0.6.1
 DEFINES+=APP_VERSION=\\\"$$VERSION\\\"
 DEFINES+=APP_ID=\\\"$$TARGET\\\"
 
@@ -22,6 +22,7 @@ KEY = $$PWD/rpm/ru.yewrepo.auroraassistant.spec
 include("sensor/sensor.pri")
 
 SOURCES += \
+    src/CoverUpdater.cpp \
     src/data/RegisterDataRemote.cpp \
     src/data/TokensRemote.cpp \
     src/device/AvailableSensors.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
     src/updater/SensorUpdater.cpp
 
 HEADERS += \
+    src/CoverUpdater.h \
     src/DeviceData.h \
     src/LoadingStateClass.h \
     src/Log.h \

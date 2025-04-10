@@ -162,5 +162,13 @@
         <source>No server</source>
         <translation>No server</translation>
     </message>
+    <message>
+        <source>Updater running</source>
+        <translation>Updater running</translation>
+    </message>
+    <message>
+        <source>Updater stopped</source>
+        <translation>Updater stopped</translation>
+    </message>
 </context>
 </TS>

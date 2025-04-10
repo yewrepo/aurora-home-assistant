@@ -1,24 +1,34 @@
 #include "UpdaterCreator.h"
 
-UpdaterCreator::UpdaterCreator(shared_ptr<UpdaterQmlControl> updaterQmlControl, QObject *parent) : QObject(parent)
+UpdaterCreator::UpdaterCreator(CoverUpdater *coverUpdater, QObject *parent) : QObject(parent)
 {
-    _updaterQmlControl = updaterQmlControl;
+    _coverUpdater = coverUpdater;
 }
 
 UpdaterCreator::~UpdaterCreator()
 {
-    QObject::disconnect(_connection);
-    QObject::disconnect(_connection2);
+    for(auto connection : _connections)
+    {
+        QObject::disconnect(connection);
+    }
 }
 
 void UpdaterCreator::init(QGuiApplication *app, shared_ptr<DiProvider> diProvider)
 {
+    _updaterQmlControl = diProvider->lazyUpdaterControls();
     _updater = new HttpSensorUpdater(diProvider->settingsRepo, diProvider->deviceRepo,
-                                         diProvider->diContainer.sensorManagerRepoInstance(),
-                                         diProvider->diContainer.sensorSensorRequestInstance(), app);
+                                     diProvider->diContainer.sensorManagerRepoInstance(),
+                                     diProvider->diContainer.sensorSensorRequestInstance(), app);
 
-    _connection = QObject::connect(_updaterQmlControl.get(), &UpdaterQmlControl::action, _updater, &HttpSensorUpdater::action);
-    _connection2 = QObject::connect(_updater, &HttpSensorUpdater::state, _updaterQmlControl.get(), &UpdaterQmlControl::stateUpdater);
+    _connections.append(QObject::connect(_updaterQmlControl.get(), &UpdaterQmlControl::action, _updater, &HttpSensorUpdater::action));
+    _connections.append(QObject::connect(_updater, &HttpSensorUpdater::state, this, &UpdaterCreator::stateUpdater));
+    _connections.append(QObject::connect(this, &UpdaterCreator::sensorState, _updaterQmlControl.get(), &UpdaterQmlControl::stateUpdater));
+    _connections.append(QObject::connect(this, &UpdaterCreator::sensorState, _coverUpdater, &CoverUpdater::stateUpdater));
 
     _updater->init();
+}
+
+void UpdaterCreator::stateUpdater(UpdaterState state)
+{
+    emit sensorState(state);
 }

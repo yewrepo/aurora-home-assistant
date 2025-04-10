@@ -51,7 +51,7 @@ public:
 
     Q_INVOKABLE void startUpdates();
     Q_INVOKABLE void stopUpdates();
-    bool updaterIsWorking();
+    Q_INVOKABLE bool updaterIsWorking();
     QString updaterLastUpdate();
 
     bool selectedSensorRegistered();

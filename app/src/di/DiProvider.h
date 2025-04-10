@@ -58,6 +58,7 @@ public:
     shared_ptr<SensorRequest> lazySensorRequest();
     shared_ptr<UpdaterQmlControl> lazyUpdaterControls();
 
+    Q_INVOKABLE UpdaterQmlControl* updaterControlsInstance();
     Q_INVOKABLE LauncherViewModel* mainVmInstance();
     Q_INVOKABLE WebViewViewModel* webAppVmInstance();
     Q_INVOKABLE SensorSettingsViewModel* sensorSettingsVmInstance();

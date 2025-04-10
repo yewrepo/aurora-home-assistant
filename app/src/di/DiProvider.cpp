@@ -12,7 +12,7 @@ DiProvider::~DiProvider()
 
 shared_ptr<SettingsRepo> DiProvider::lazySettingsRepo()
 {
-    if(!settingsRepo) {
+    if (!settingsRepo) {
         settingsRepo = diContainer.settingsRepoInstance();
     }
     return settingsRepo;
@@ -20,7 +20,7 @@ shared_ptr<SettingsRepo> DiProvider::lazySettingsRepo()
 
 shared_ptr<DeviceDataRepo> DiProvider::lazyDeviceDataRepo()
 {
-    if(!deviceRepo) {
+    if (!deviceRepo) {
         deviceRepo = diContainer.deviceRepoInstance();
     }
     return deviceRepo;
@@ -28,7 +28,7 @@ shared_ptr<DeviceDataRepo> DiProvider::lazyDeviceDataRepo()
 
 shared_ptr<SensorManagerRepo> DiProvider::lazyManagersRepo()
 {
-    if(!sensorManagerRepo) {
+    if (!sensorManagerRepo) {
         sensorManagerRepo = diContainer.sensorManagerRepoInstance();
     }
     return sensorManagerRepo;
@@ -36,7 +36,7 @@ shared_ptr<SensorManagerRepo> DiProvider::lazyManagersRepo()
 
 shared_ptr<SensorRequest> DiProvider::lazySensorRequest()
 {
-    if(!sensorRequest) {
+    if (!sensorRequest) {
         sensorRequest = diContainer.sensorSensorRequestInstance();
     }
     return sensorRequest;
@@ -44,10 +44,15 @@ shared_ptr<SensorRequest> DiProvider::lazySensorRequest()
 
 shared_ptr<UpdaterQmlControl> DiProvider::lazyUpdaterControls()
 {
-    if(!updaterControls) {
+    if (!updaterControls) {
         updaterControls = diContainer.updaterControlsInstance();
     }
     return updaterControls;
+}
+
+UpdaterQmlControl *DiProvider::updaterControlsInstance()
+{
+    return lazyUpdaterControls().get();
 }
 
 LauncherViewModel* DiProvider::mainVmInstance()

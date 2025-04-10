@@ -162,5 +162,13 @@
         <source>No server</source>
         <translation>Нет сервера</translation>
     </message>
+    <message>
+        <source>Updater running</source>
+        <translation>Обновление запущено</translation>
+    </message>
+    <message>
+        <source>Updater stopped</source>
+        <translation>Обновление остановлено</translation>
+    </message>
 </context>
 </TS>

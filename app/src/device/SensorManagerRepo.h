@@ -27,7 +27,7 @@ private:
     IntStateManager* _bluetoothStateManager;
     IntStateManager* _bluetoothConnectionsManager;
 
-    QMap<Sensor::BasicSensor*, QMetaObject::Connection> connectionsMap;
+    QMap<Sensor::BasicSensor*, QMetaObject::Connection> _connectionsMap;
 };
 
 #endif // SENSORMANAGERREPO_H

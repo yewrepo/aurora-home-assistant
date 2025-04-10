@@ -30,10 +30,12 @@ HttpSensorUpdater::~HttpSensorUpdater()
 
 void HttpSensorUpdater::init()
 {
-    if (_settingsRepo.get()->updaterStarted()) {
+    if (_settingsRepo.get()->updaterStarted())
+    {
         startUpdates();
         emit state(UpdaterState::WORKING);
-    } else{
+    } else
+    {
         stopUpdates();
         emit state(UpdaterState::STOPPED);
     }
@@ -41,10 +43,11 @@ void HttpSensorUpdater::init()
 
 void HttpSensorUpdater::startUpdates()
 {
-    Log::d("startUpdates", Q_FUNC_INFO);
     int seconds = _settingsRepo.get()->getUpdateInterval() * 60;
     _updateTimer->start(seconds * 1000);
     _settingsRepo.get()->setUpdaterStarted(true);
+    Log::d(QString("Interval sec: %1").arg(seconds), Q_FUNC_INFO);
+    emit state(UpdaterState::WORKING);
 }
 
 void HttpSensorUpdater::stopUpdates()
@@ -52,6 +55,7 @@ void HttpSensorUpdater::stopUpdates()
     Log::d("stopUpdates", Q_FUNC_INFO);
     _updateTimer->stop();
     _settingsRepo.get()->setUpdaterStarted(false);
+    emit state(UpdaterState::STOPPED);
 }
 
 void HttpSensorUpdater::update()

@@ -11,6 +11,7 @@
 #include <src/ui/SensorSettingUiItem.h>
 #include <src/ui/SensorSettingsListModel.h>
 #include "./src/updater/UpdaterCreator.h"
+#include "./src/CoverUpdater.h"
 #include <QtDBus/QDBusMetaType>
 
 int main(int argc, char *argv[])
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<WebViewViewModel>("ru.yewrepo.custom", 1, 0, "WebViewViewModel");
     qmlRegisterType<UpdaterQmlControl>("ru.yewrepo.custom", 1, 0, "UpdaterControls");
     qmlRegisterType<DiProvider>("ru.yewrepo.custom", 1, 0, "DiProvider");
+    qmlRegisterType<CoverUpdater>("ru.yewrepo.custom", 1, 0, "CoverUpdater");
 
     QGuiApplication *app = Aurora::Application::application(argc, argv);
     QScopedPointer<QGuiApplication> application(app);
@@ -37,14 +39,16 @@ int main(int argc, char *argv[])
     application->setApplicationVersion(QStringLiteral(APP_VERSION));
 
     shared_ptr<DiProvider> diProvider = make_shared<DiProvider>();
+    CoverUpdater *coverUpdater = new CoverUpdater(app);
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
     view->rootContext()->setContextProperty("APP_VERSION", QString(APP_VERSION));
     view->rootContext()->setContextProperty("diProvider", diProvider.get());
+    view->rootContext()->setContextProperty("coverUpdater", coverUpdater);
     view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/aurora-assistant.qml")));
     view->show();
 
-    UpdaterCreator creator(diProvider->lazyUpdaterControls(), app);
+    UpdaterCreator creator(coverUpdater, app);
     creator.init(app, diProvider);
 
     return application->exec();

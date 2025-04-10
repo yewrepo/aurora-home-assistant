@@ -14,6 +14,7 @@ SensorManagerRepo::~SensorManagerRepo()
     _batteryLevelManager = nullptr;
     _bluetoothStateManager = nullptr;
     _bluetoothConnectionsManager = nullptr;
+    //connectionsMap.clear();
 }
 
 void SensorManagerRepo::getSensorData(Sensor::BasicSensor *sensor)
@@ -22,7 +23,7 @@ void SensorManagerRepo::getSensorData(Sensor::BasicSensor *sensor)
 
     if (Sensor::batteryLevelSensor.id() == sensor->id())
     {
-        connectionsMap[sensor] = QObject::connect(_batteryLevelManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
+        _connectionsMap[sensor] = QObject::connect(_batteryLevelManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
         {
             disconnectFromMap(sensor);
             qDebug() << "batteryLevelSensor " << jsonPair;
@@ -32,7 +33,7 @@ void SensorManagerRepo::getSensorData(Sensor::BasicSensor *sensor)
     }
     else if (Sensor::bluetoothStateSensor.id() == sensor->id())
     {
-        connectionsMap[sensor] = QObject::connect(_bluetoothStateManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
+        _connectionsMap[sensor] = QObject::connect(_bluetoothStateManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
         {
             disconnectFromMap(sensor);
             qDebug() << "bluetoothStateSensor " << jsonPair;
@@ -42,7 +43,7 @@ void SensorManagerRepo::getSensorData(Sensor::BasicSensor *sensor)
     }
     else if (Sensor::bluetoothConnectionsSensor.id() == sensor->id())
     {
-        connectionsMap[sensor] = QObject::connect(_bluetoothConnectionsManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
+        _connectionsMap[sensor] = QObject::connect(_bluetoothConnectionsManager, &IntStateManager::signalSensorResult, this, [=](QPair<QJsonObject, QJsonObject> jsonPair)
         {
             disconnectFromMap(sensor);
             qDebug() << "bluetoothConnectionsSensor " << jsonPair;
@@ -54,9 +55,9 @@ void SensorManagerRepo::getSensorData(Sensor::BasicSensor *sensor)
 
 void SensorManagerRepo::disconnectFromMap(Sensor::BasicSensor *sensor)
 {
-    if (connectionsMap.contains(sensor))
+    if (_connectionsMap.contains(sensor))
     {
-        QObject::disconnect(connectionsMap[sensor]);
-        connectionsMap.remove(sensor);
+        QObject::disconnect(_connectionsMap[sensor]);
+        _connectionsMap.remove(sensor);
     }
 }
